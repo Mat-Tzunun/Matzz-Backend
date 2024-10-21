@@ -1,0 +1,39 @@
+services:
+  backend:
+    image: python:3.9
+    container_name: python_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app # Ruta a tu aplicación Python
+    working_dir: /app
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt && python -m main"
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1234
+      - MYSQL_DB=matzunun
+      - MYSQL_PORT=3306
+      - ENV=development
+    ports:
+      - "8080:5000"
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_db
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: matzunun
+      #MYSQL_USER: root # Cambiado a 'root'
+      #MYSQL_PASSWORD: 1234 # Cambiado a '1234'
+    ports:
+      - "3307:3306"
+
+volumes:
+  db_data:
