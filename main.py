@@ -3,11 +3,13 @@ from src.app import db
 from src.routes.users import usersRoutes
 from src.routes.exercises import exercisesRoutes
 from src.routes.evaluation import evaluationRoutes
+from src.routes.progress import progressRoutes
 from config import debug_mode
 
 app.register_blueprint(exercisesRoutes, url_prefix='/api')
 app.register_blueprint(usersRoutes, url_prefix='/api')
 app.register_blueprint(evaluationRoutes, url_prefix='/api')
+app.register_blueprint(progressRoutes, url_prefix='/api')
 
 
 if __name__ == '__main__':

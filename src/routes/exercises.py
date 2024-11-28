@@ -3,14 +3,15 @@ from src.core.OpenAI import MattzunuIA
 from src.app import db
 from src.db.models import Exercises, exercises_schema, exercise_schema
 from datetime import datetime
+from config import openai_api_key
 
 exercisesRoutes = Blueprint('exercises', __name__)
 
 
-@exercisesRoutes.route('/exercises', methods=['POST'])
-def CREATE_EXERCISE():
+@exercisesRoutes.route('/exercises/<int:idUser>', methods=['POST'])
+def CREATE_EXERCISE(idUser):
     try:
-        mattzunu = MattzunuIA(api_key="xxxxxxxxxxxxxxxxxx")
+        mattzunu = MattzunuIA(api_key=openai_api_key)
         data = mattzunu.generate_exercise(level=1)
 
         if (data is None):
@@ -34,7 +35,7 @@ def CREATE_EXERCISE():
             return jsonify({"message": "Error: Missing fields in exercise data"}), 400
 
         new_exercise = Exercises(
-            user_id=1,
+            user_id=idUser,
             numbers=exercise_numbers,  # Ensure this is a valid format
             operation=exercise_operation,
             result=exercise_result,

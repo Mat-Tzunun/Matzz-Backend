@@ -1,6 +1,8 @@
 from openai import OpenAI
+from src.constants import exercises_default
 import json
 import re
+import random
 
 
 class MattzunuIA:
@@ -71,22 +73,12 @@ class MattzunuIA:
 
         except Exception as error:
             # print(error)
-            print("Error al generar ejercicio")
+            print("Error al generar ejercicio con IA")
 
             if (self.mode == "development"):
-                default_message = """
-<operation>
-  {
-    "numbers": [12, 8],
-    "operation": "resta",
-    "level": 4,
-    "result": 4
-  }
-</operation>
-<message>¡Genial! ¿Puedes ayudarme a restar 12 menos 8? ¡Veamos qué puedes hacer!</message>
-<messageSuccess>¡Increíble! ¡Has restado correctamente!</messageSuccess>
-<messageFailure>¡Casi! Intenta de nuevo, ¿cuánto es 12 menos 8?</messageFailure>
-"""
-            content = self.extract_content(default_message)
-            content["operation"] = self.convert_to_json(content["operation"])
-            return content
+                default_message = random.choice(exercises_default)
+
+                content = self.extract_content(default_message)
+                content["operation"] = self.convert_to_json(
+                    content["operation"])
+                return content
