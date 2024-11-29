@@ -1,5 +1,7 @@
 import os
 
+app_port = int(os.environ.get('PORT', '5000'))
+
 db_host = os.environ.get('MYSQL_HOST', 'localhost')
 db_user = os.environ.get('MYSQL_USER', 'root')
 db_password = os.environ.get('MYSQL_PASSWORD', '54628')
